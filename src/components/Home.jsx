@@ -1,9 +1,21 @@
-import React from 'react'
 import { Link } from "react-router-dom";
 import { Input } from "@material-tailwind/react";
-import Preview from './preview';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 const Home = () => {
+  const [posts, setPosts] = useState([]);
+    useEffect(() => {
+        axios
+        .get(`http://localhost:8000/api/v1/listings/`)
+        .then((res) => {
+            console.log(res);
+            setPosts(res.data);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    }, []);
   
   return (
     <div>
@@ -45,7 +57,42 @@ const Home = () => {
 
     </div>
 
-    <Preview/>
+    <div className="mt-8 grid lg:grid-cols-3 md:grid-cols-2 gap-10 container mx-auto">
+      {posts.map((post) =>(
+        <div key={post.id}>
+          {/* <!-- cards go here --> */}
+        <div className="card" >
+        <Link to={'detail/' + post.slug}>
+        <img src={post.cover_image} alt="stew" className="w-full h-32 sm:h-48 object-cover"/>
+        </Link>
+        
+        <div className="m-4 grid grid-cols-2 gap-20">
+            <Link to={'detail/' + post.slug}>
+          <span className="font-bold capitalize text-center">{post.name}</span>
+            
+            </Link>
+          <span className=" text-black capitalize text-sm font-semibold flex">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+            </svg>{post.location}</span>
+        </div>
+        <div className="badge">
+       {post.status} @
+            &#8358;
+              
+            <span>{post.price}/yr</span>
+        </div>
+      </div>
+        {/* end card */}
+        </div>
+      ))}
+        
+              
+              
+
+              
+    </div>
     
     </div>
   )

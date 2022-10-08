@@ -26,7 +26,7 @@ const Header = () => {
             className="p-1 font-normal hover:text-amber-500"
             
           >
-            <Link to="#" className="flex items-center">
+            <Link to="/" className="flex items-center">
               Home
             </Link>
           </Typography>
@@ -75,7 +75,7 @@ const Header = () => {
           variant="small"
           className="mr-4 cursor-pointer py-1.5 font-normal"
         >
-          <span className="md:text-xl text-amber-500 sm:text-amber-500 lg:text-amber-500 font-semibold">Real estate</span>
+          <span className="md:text-xl text-amber-500 sm:text-amber-500 lg:text-amber-500 font-semibold"><Link to="/">Real estate</Link></span>
         </Typography>
         <div className="hidden md:block">{navList}</div>
         <IconButton
