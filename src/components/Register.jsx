@@ -6,6 +6,7 @@ import { setAlert } from '../actions/alert';
 import { signup } from '../actions/auth';
 import PropTypes from 'prop-types';
 import Alert from './Alert';
+import Header from "./Header";
 
 
 const Register = ({ setAlert, signup, isAuthenticated }) => {
@@ -33,6 +34,7 @@ if (isAuthenticated)
     return <Navigate to='/admin' />;
   return (
     <div>
+        <Header/>
       <header
         className="w-full h-96 brightness-50 bg-[url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8N3x8fGVufDB8fHx8&w=1000&q=80')] bg-cover bg-center flex justify-center items-center">
         <div className="flex flex-col justify-center items-center">

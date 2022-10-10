@@ -1,10 +1,12 @@
 import React from 'react'
 import { Link } from "react-router-dom";
-
+import Header from './Header';
 
 const ErrorPage = () => {
   return (
-    <div className='container' >
+    <div>
+    <Header/>
+    <div className='container'>
         <section id="login" className="mt-5 py-5">
     <div className="row">
         <div className="col-md-6 mx-auto">
@@ -19,6 +21,7 @@ const ErrorPage = () => {
             </div>
             </section>
         </div >
+        </div>
   )
 }
 

@@ -2,6 +2,8 @@ import { Breadcrumbs } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Header from './Header'
+
 
 const Listing = () => {
     const [posts, setPosts] = useState([]);
@@ -20,6 +22,7 @@ const Listing = () => {
     
   return (
     <div>
+      <Header/>
        <header
         className="w-full h-96 brightness-50 bg-[url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8N3x8fGVufDB8fHx8&w=1000&q=80')] bg-cover bg-center flex justify-center items-center">
         <div className="flex flex-col justify-center items-center">

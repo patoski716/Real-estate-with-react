@@ -1,5 +1,4 @@
 import './App.css';
-import Header from './components/Header'
 import Home from './components/Home'
 import { BrowserRouter,Routes,Route } from "react-router-dom";
 import Detail from './components/Detail';
@@ -22,7 +21,7 @@ function App() {
     <Provider store={store}>
 <div className="font-body">
     <BrowserRouter>
-    <Header/>
+    
       <Routes>
       <Route path="/" element={<PublicRoutes/>}>
         <Route exact path="/" element={<Home/>}/>
@@ -33,15 +32,13 @@ function App() {
         <Route exact path="/sign-up" element={<Register/>}/>
         <Route exact path="*" element={<Error/>}/>
       </Route>
-
       {/* protected routes */}
       <Route exact path="/" element={<PrivateRoute/>}>
         <Route exact path="/admin" element={<Dashboard/>}/>
-
       </Route>
+      
 
-
-      </Routes>
+    </Routes>
     </BrowserRouter>
 
     </div>

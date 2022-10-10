@@ -3,6 +3,8 @@ import { Input } from "@material-tailwind/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Alert from './Alert';
+import Header from './Header'
+
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -20,6 +22,8 @@ const Home = () => {
   
   return (
     <div>
+        <Header/>
+
      <header
         className="w-full h-96 bg-[url('https://images.unsplash.com/photo-1513584684374-8bab748fbf90?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MTh8fHxlbnwwfHx8fA%3D%3D&w=1000&q=80')] bg-cover bg-center flex justify-center items-center">
         <div className="flex flex-col justify-center items-center">

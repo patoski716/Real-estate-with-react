@@ -4,6 +4,7 @@ import {useParams, Link, useNavigate} from "react-router-dom";
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import axiosInstance from '../axios';
+import Header from "./Header";
 
 import axios from "axios";
 // Import Swiper React components
@@ -76,6 +77,7 @@ const Detail = ({ auth: { isAuthenticated, loading }}) => {
     
   return (
     <div>
+      <Header/>
         <header
         className="w-full h-96 brightness-50 bg-[url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8N3x8fGVufDB8fHx8&w=1000&q=80')] bg-cover bg-center flex justify-center items-center">
         <div className="flex flex-col justify-center items-center">
