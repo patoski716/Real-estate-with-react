@@ -1,27 +1,65 @@
 import { Breadcrumbs } from "@material-tailwind/react";
-import React, { useEffect, useState } from "react";
-import { useParams, Link } from 'react-router-dom';
+import React, { useEffect, useState, Fragment } from "react";
+import {useParams, Link, useNavigate} from "react-router-dom";
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import axiosInstance from '../axios';
+
 import axios from "axios";
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
 
-const Detail = () => {
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
-  // begin query
-  const [items, setItems] = useState([])
-  const {realtor} = useParams();
-  useEffect(() => {
-    const getItems = async () => {
-        const result = await axios.get('http://localhost:8000/api/v1/realtors/');
-        const allItems = result.data.entries;
-        const realtorItems = allItems.filter(item => item.Realtor === realtor);
-        setItems(realtorItems)
-    }
-    getItems()
-}, [realtor])
+// import required modules
+import { Autoplay, Pagination } from "swiper";
 
-  // end query
+const Detail = ({ auth: { isAuthenticated, loading }}) => {
     const { slug } = useParams();
     const [showModal, setShowModal] = useState(false);
     const [posts, setPosts] = useState([]);
+     // post a contact
+     const initialFormData = Object.freeze({
+		email: '',
+    message: '',
+    phone:'',
+    name:'',
+	});
+
+  const [postData, updateFormData] = useState(initialFormData);
+  
+  const handleChange = (e) => {
+    if ([e.target.name] == 'email') {
+			updateFormData({
+				...postData,
+				[e.target.name]: e.target.value.trim(),
+			});
+		} else {
+			updateFormData({
+				...postData,
+				[e.target.name]: e.target.value.trim(),
+			});
+		}
+
+	};
+  const handleSubmit = (e) => {
+		e.preventDefault();
+		let formData = new FormData();
+		formData.append('email', postData.email);
+		formData.append('name', postData.name);
+		formData.append('message', postData.message);
+		formData.append('phone', postData.phone);
+
+
+		axiosInstance.post(`createcontact/`, formData);
+    
+    alert('Message Sent successfully')
+		window.location.reload();
+	};
+    
     let url = `http://localhost:8000/api/v1/listings/` 
     useEffect(() => {
         axios
@@ -34,7 +72,8 @@ const Detail = () => {
             console.log(err);
         });
     }, [setPosts]);
-
+   
+    
   return (
     <div>
         <header
@@ -44,15 +83,51 @@ const Detail = () => {
         </div>
     </header>
     <Breadcrumbs className='text-black font-semibold mt-6'>
-        <Link to="#" className="opacity-60">
+        <Link to="/" className="opacity-60">
             Home
         </Link>
-        <Link to="#">{posts.name}</Link>
+        <span className="text-black">{posts.name}</span>
     </Breadcrumbs>
         <div className='container mx-auto'>
             <div className="grid lg:grid-cols-2 mt-10 md:grid-cols-2 md:gap-12 sm:gap-4">
                 <div>
-                <img src={posts.photo_1} alt="" className='h-full w-96 md:w-full'/>
+                  {/* swiper */}
+                  <div className="swiper-container">
+                  <Swiper
+                 spaceBetween={30}
+                 centeredSlides={true}
+                 autoplay={{
+                     delay: 2500,
+                     disableOnInteraction: false,
+                 }}
+                 pagination={{
+                     clickable: true,
+                 }}
+                //  navigation={true}
+                 modules={[Autoplay, Pagination]}
+                 className="mySwiper"
+            >
+                <SwiperSlide>
+                <div className="swiper-slide">
+                <img src={posts.photo_1} alt="" className="h-96 md:w-full w-96"/>
+                </div>
+                </SwiperSlide>
+
+                <SwiperSlide>
+                <div className="swiper-slide">
+                <img src={posts.photo_2} alt="" className="h-96 md:w-full w-96"/>
+                </div>
+                </SwiperSlide>
+                
+                <SwiperSlide>
+                <div className="swiper-slide">
+                <img src={posts.photo_3} alt="" className="h-96 md:w-full w-96"/>
+                </div>
+                </SwiperSlide>
+                </Swiper>
+
+                  </div>
+                  
                 </div>
                 <div className="w-80 md:w-full">
                     <h1 className='md:text-4xl text-amber-500 sm:text-amber-500 lg:text-amber-500 font-semibold '>{posts.name}</h1>
@@ -65,8 +140,8 @@ const Detail = () => {
 
 
     <div className="flex items-center">
-    <div class="relative w-24 h-24">
-    <img class="rounded-full border border-gray-100 shadow-sm" src={posts.realtor_image} alt="Agent" />
+    <div className="relative w-24 h-24">
+    <img className="rounded-full border border-gray-100 shadow-sm" src={posts.realtor_image} alt="Agent" />
     </div>
     <div>
     <h1>{posts.realtor_name}</h1>
@@ -78,9 +153,7 @@ const Detail = () => {
     
   
                     <div className='mt-5'>
-                        <Link to="" className="text-black  ml-2 btn border-amber-500 md:border-2 bg-amber-500 hover:text-white transition ease-out duration-500">
-                            Create an account to make an equiry
-                        </Link>
+                   
 
                         <button type="button" onClick={() => setShowModal(true)} className="text-black mt-5 md:mt-5 ml-2 btn border-amber-500 md:border-2 bg-amber-500 hover:text-white transition ease-out duration-500">
                             Make an equiry
@@ -103,42 +176,40 @@ const Detail = () => {
                   </button>
                 </div>
                 <div className="relative p-6 flex-auto">
-                  <form className="bg-gray-200 shadow-md rounded px-8 pt-6 pb-8 w-full">
-                  <input type="text" name="listing" className=" hidden shadow appearance-none border rounded w-full py-2 px-1 text-black" />
-
+                  <form className="bg-gray-200 shadow-md rounded px-8 pt-6 pb-8 w-full" >
                     <label className="block text-black text-sm font-bold mb-1">
                       Name
                     </label>
-                    <input type="text" name="name" className="shadow appearance-none border rounded w-full py-2 px-1 text-black" />
+                    <input type="text" name="name" onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-1 text-black" />
 
                     <label className="block text-black text-sm font-bold mb-1">
                       Email
                     </label>
-                    <input type="email" name="email" className="shadow appearance-none border rounded w-full py-2 px-1 text-black" />
+                    <input type="email" name="email" onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-1 text-black" />
 
                     <label className="block text-black text-sm font-bold mb-1">
                       Phone
                     </label>
-                    <input type="text" name="phone" className="shadow appearance-none border rounded w-full py-2 px-1 text-black" />
+                    <input type="text" name="phone" onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-1 text-black" />
                     
                     <label className="block text-black text-sm font-bold mb-1">
                       Message
                     </label>
-                    <textarea name="message" className="shadow appearance-none border rounded w-full py-2 px-1 text-black" />
+                    <textarea name="message" onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-1 text-black" />
                   </form>
                 </div>
                 <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
-                  <button
+                  <button 
                     className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
-                    type="button"
+                    type="button" 
                     onClick={() => setShowModal(false)}
                   >
                     Close
                   </button>
                   <button
                     className="text-white bg-amber-500 active:bg-amber-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
-                    type="button"
-                    onClick={() => setShowModal(false)}
+                    type="button" onClick={handleSubmit}
+                    
                   >
                     Submit
                   </button>
@@ -157,4 +228,11 @@ const Detail = () => {
   )
 }
 
-export default Detail
+Detail.propTypes = {
+  auth: PropTypes.object.isRequired
+}
+
+const mapStateToProps = (state) => ({
+  auth: state.auth
+});
+export default connect(mapStateToProps)(Detail);

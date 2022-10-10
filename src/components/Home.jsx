@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Input } from "@material-tailwind/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Alert from './Alert';
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -25,6 +26,7 @@ const Home = () => {
             <h1 className=" text-center lg:text-5xl md:text-3xl sm:text-2xl  text-white font-bold drop-shadow-lg text-xl">Easiest way to find your 
             <span className="text-amber-500"> dream home</span>
             </h1>
+            <p className="bg-primary text-black text-lg"><Alert/></p>
             <form action="" className='md:flex md:items-center md:justify-center w-full'>
             <div className="flex w-full items-end gap-4 mt-10">
               <Input size="lg" placeholder='Search for your dream home' className='font-semibold drop-shadow-lg w-full rounded-full' />
