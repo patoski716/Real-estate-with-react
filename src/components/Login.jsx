@@ -64,7 +64,7 @@ if (isAuthenticated)
                         name="password"
                         placeholder="Password"  value={password}
                         onChange={e => onChange(e)}
-                        minLength='6' required />
+                        required />
                     
 
                     <button

@@ -69,7 +69,7 @@ const Home = () => {
           {/* <!-- cards go here --> */}
         <div className="card" >
         <Link to={'detail/' + post.slug}>
-        <img src={post.cover_image} alt="stew" className="w-full h-32 sm:h-48 object-cover"/>
+        <img src={post.image} alt="stew" className="w-full h-32 sm:h-48 object-cover"/>
         </Link>
         
         <div className="m-4 grid grid-cols-2 gap-20">

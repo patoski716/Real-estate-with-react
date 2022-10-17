@@ -1,6 +1,6 @@
 import { Breadcrumbs } from "@material-tailwind/react";
-import React, { useEffect, useState, Fragment } from "react";
-import {useParams, Link, useNavigate} from "react-router-dom";
+import React, { useEffect, useState  } from "react";
+import {useParams, Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import axiosInstance from '../axios';
@@ -139,18 +139,6 @@ const Detail = ({ auth: { isAuthenticated, loading }}) => {
                     <h1 className="text-xl">Number of Rooms: {posts.rooms}</h1>
                     <h1 className="text-xl">Number of Bathroom: {posts.bathroom}</h1>
                     <h1 className="text-xl">Garage: {posts.parking_spot}</h1>
-
-
-    <div className="flex items-center">
-    <div className="relative w-24 h-24">
-    <img className="rounded-full border border-gray-100 shadow-sm" src={posts.realtor_image} alt="Agent" />
-    </div>
-    <div>
-    <h1>{posts.realtor_name}</h1>
-    <h1>{posts.realtor_email}</h1>
-    <h1>{posts.realtor_phone}</h1>
-    </div>
-    </div>
 
     
   

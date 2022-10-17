@@ -52,10 +52,13 @@ const About = () => {
     <div className="relative w-24 h-24">
     <img className="rounded-full border border-gray-100 shadow-sm" src={post.image} alt="Agent" />
     </div>
-    
+    <div className="mt-10">
     <h1>{post.name}</h1>
     <h1>{post.email}</h1>
     <h1>{post.phone}</h1>
+    </div>
+    
+    
     </div>
     </div>
     ))}

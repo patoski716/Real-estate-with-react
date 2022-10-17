@@ -5,18 +5,18 @@ import Footer from './Footer';
 import { Link } from 'react-router-dom'
 
 
-import axiosInstance from '../../axios';
+import axiosInstance from './axios';
 
 
 let getTime = (post) => {
     return new Date(post.created_at).toLocaleDateString()
 }
 
-const Dashboard = () => {
+const AdminRealtor = () => {
   const [posts, setPosts] = useState([]);
     useEffect(() => {
         axiosInstance
-        .get(`listings/`)
+        .get(`realtors/`)
         .then((res) => {
             console.log(res);
             setPosts(res.data);
@@ -43,8 +43,8 @@ const Dashboard = () => {
                         
                         
                     </div>
-                    <Link to="/admin/add-listing" type="button" className="text-black py-2 px-3 uppercase text-xs font-bold cursor-pointer w-20 tracking-wider border-gray-500 md:border-2 bg-gray-500 hover:text-white">
-                            Add Listing
+                    <Link to="/admin/add-realtor" type="button" className="text-black py-2 px-3 uppercase text-xs font-bold cursor-pointer w-20 tracking-wider border-gray-500 md:border-2 bg-gray-500 hover:text-white">
+                            Add Realtor
                         </Link>
                     <div className="flex flex-1 flex-col md:flex-row lg:flex-row mx-2">
                         <div className="rounded overflow-hidden shadow bg-white mx-2 w-full">
@@ -54,12 +54,9 @@ const Dashboard = () => {
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">name</th>
-                                        <th scope="col">rooms</th>
-                                        <th scope="col">bathroom</th>
-                                        <th scope="col">parking spot</th>
-                                        <th scope="col">status</th>
-                                        <th scope="col">location</th>
-                                        <th scope="col">price</th>
+                                        <th scope="col">email</th>
+                                        <th scope="col">phone</th>
+                                        <th scope="col">description</th>
                                         <th scope="col">created at</th>
                                     </tr>
                                     </thead>
@@ -68,12 +65,9 @@ const Dashboard = () => {
                                     <tr key={post.id}>
                                         <th scope="row">{post.id}</th>
                                         <td>{post.name}</td>
-                                        <td>{post.rooms}</td>
-                                        <td>{post.bathroom}</td>
-                                        <td>{post.parking_spot}</td>
-                                        <td>{post.status}</td>
-                                        <td>{post.location}</td>
-                                        <td>{post.price}</td>
+                                        <td>{post.email}</td>
+                                        <td>{post.phone}</td>
+                                        <td>{post.description}</td>
                                         <td>{getTime(post)}</td>
                                     </tr>
       ))}
@@ -97,4 +91,4 @@ const Dashboard = () => {
 
 
   
-export default Dashboard;
+export default AdminRealtor;
