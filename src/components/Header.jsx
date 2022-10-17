@@ -1,4 +1,3 @@
-import React from 'react'
 import { useState, useEffect } from "react";
 import {
   Navbar,
@@ -7,8 +6,25 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
+import { logout } from '../actions/auth';
+import PropTypes from 'prop-types';
 
-const Header = () => {
+const Header = ({ auth: { isAuthenticated, loading }, logout }) => {
+
+  const authLinks = (
+          
+      <Link to="#" onClick={logout} className="text-amber-500 btn border-amber-500 md:border-2 hover:bg-amber-500 hover:text-white transition ease-out duration-500">Logout</Link>
+    );
+
+const guestLinks = (
+    <Fragment>
+        <Link to="/login" className="text-amber-500 btn border-amber-500 md:border-2 hover:bg-amber-500 hover:text-white transition ease-out duration-500">Log in</Link>
+        <Link to="/sign-up" className="text-amber-500 ml-2 btn border-amber-500 md:border-2 hover:bg-amber-500 hover:text-white transition ease-out duration-500">Sign up</Link>
+    </Fragment>
+);
+
     const [openNav, setOpenNav] = useState(false);
  
     useEffect(() => {
@@ -26,7 +42,7 @@ const Header = () => {
             className="p-1 font-normal hover:text-amber-500"
             
           >
-            <Link to="#" className="flex items-center">
+            <Link to="/" className="flex items-center">
               Home
             </Link>
           </Typography>
@@ -36,7 +52,7 @@ const Header = () => {
             color="blue-gray"
             className="p-1 font-normal hover:text-amber-500"
           >
-            <Link to="#" className="flex items-center">
+            <Link to="/listing" className="flex items-center">
               Listing
             </Link>
           </Typography>
@@ -46,7 +62,7 @@ const Header = () => {
             color="blue-gray"
             className="p-1 font-normal hover:text-amber-500"
           >
-            <Link to="#" className="flex items-center">
+            <Link to="/about" className="flex items-center">
               About
             </Link>
           </Typography>
@@ -61,8 +77,7 @@ const Header = () => {
             // className="p-1 font-normal"
             className="flex justify-center md:justify-end "
           >
-            <Link to="#" className="text-amber-500 btn border-amber-500 md:border-2 hover:bg-amber-500 hover:text-white transition ease-out duration-500">Log in</Link>
-            <Link to="#" className="text-amber-500 ml-2 btn border-amber-500 md:border-2 hover:bg-amber-500 hover:text-white transition ease-out duration-500">Sign up</Link>
+            { !loading && (<Fragment>{ isAuthenticated ? authLinks : guestLinks }</Fragment>) }
           </Typography>
         </ul>
       );
@@ -75,7 +90,7 @@ const Header = () => {
           variant="small"
           className="mr-4 cursor-pointer py-1.5 font-normal"
         >
-          <span className="md:text-xl text-amber-500 sm:text-amber-500 lg:text-amber-500 font-semibold">Real estate</span>
+          <Link to="/"><span className="md:text-xl text-amber-500 sm:text-amber-500 lg:text-amber-500 font-semibold">Real estate</span></Link>
         </Typography>
         <div className="hidden md:block">{navList}</div>
         <IconButton
@@ -124,4 +139,13 @@ const Header = () => {
   )
 }
 
-export default Header;
+Header.propTypes = {
+  logout: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
+}
+
+const mapStateToProps = (state) => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps, { logout })(Header);
